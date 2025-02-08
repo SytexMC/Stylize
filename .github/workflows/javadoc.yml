@@ -29,4 +29,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: build/docs/javadoc
+        destination_dir: javadocs
         publish_branch: gh-pages
