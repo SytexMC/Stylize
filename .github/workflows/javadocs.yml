@@ -1,9 +1,9 @@
-name: Publish Javadocs
+name: Javadocs
 
 on:
   push:
     branches:
-      - main  # or the branch you want to trigger the workflow
+      - main
 
 jobs:
   build:
