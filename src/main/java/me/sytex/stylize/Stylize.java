@@ -581,11 +581,6 @@ public final class Stylize {
       return this;
     }
 
-    public StylizeBuilder clearTagResolvers() {
-      this.tagResolvers.clear();
-      return this;
-    }
-
     public Stylize build() {
       return new Stylize(usePlaceholderAPI, useMiniPlaceholders, useLegacyFormatting, legacyCharacters,  tagResolvers);
     }
