@@ -33,7 +33,7 @@ To add it to your project, include one of the following snippets in your build s
 }
 
 dependencies {
-    compileOnly("com.github.SytexMC:Stylize:v1.0.2")
+    compileOnly("com.github.SytexMC:Stylize:v1.1.0")
 }
 ```
 </details>
@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.SytexMC:Stylize:v1.0.2'
+    implementation 'com.github.SytexMC:Stylize:v1.1.0'
 }
 ```
 </details>
@@ -65,7 +65,7 @@ dependencies {
 <dependency>
   <groupId>com.github.SytexMC</groupId>
   <artifactId>Stylize</artifactId>
-  <version>v1.0.2</version>
+  <version>v1.1.0</version>
   <scope>provided</scope>
 </dependency>
 ```
