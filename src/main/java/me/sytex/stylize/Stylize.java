@@ -515,9 +515,7 @@ public final class Stylize {
    * @param resolvers additional tag resolvers
    */
   public void broadcastMessage(@NotNull String string, @Nullable TagResolver... resolvers) {
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      sendMessage(player, string, resolvers);
-    });
+    sendMessage(List.copyOf(Bukkit.getOnlinePlayers()), string, resolvers);
   }
 
   /**
@@ -537,9 +535,111 @@ public final class Stylize {
    * @param resolvers optional additional tag resolvers
    */
   public void broadcastActionBar(@NotNull String string, @Nullable TagResolver... resolvers) {
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      sendActionBar(player, string, resolvers);
-    });
+    sendActionBar(List.copyOf(Bukkit.getOnlinePlayers()), string, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title to all online players.
+   *
+   * @param title     the title text to broadcast
+   * @param subTitle  the subtitle text to broadcast
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitle(
+      @NotNull String title,
+      @NotNull String subTitle,
+      @Nullable TagResolver... resolvers) {
+    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title to all online players with custom fade-in and fade-out durations.
+   *
+   * @param title     the title text to broadcast
+   * @param subTitle  the subtitle text to broadcast
+   * @param fadeIn    the fade-in duration
+   * @param fadeOut   the fade-out duration
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitle(
+      @NotNull String title,
+      @NotNull String subTitle,
+      @NotNull Duration fadeIn,
+      @NotNull Duration fadeOut,
+      @Nullable TagResolver... resolvers) {
+    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, fadeIn, fadeOut, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title to all online players with custom fade-in, stay, and fade-out durations.
+   *
+   * @param title     the title text to broadcast
+   * @param subTitle  the subtitle text to broadcast
+   * @param fadeIn    the fade-in duration
+   * @param stay      the stay duration
+   * @param fadeOut   the fade-out duration
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitle(
+      @NotNull String title,
+      @NotNull String subTitle,
+      @NotNull Duration fadeIn,
+      @NotNull Duration stay,
+      @NotNull Duration fadeOut,
+      @Nullable TagResolver... resolvers) {
+    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, fadeIn, stay, fadeOut, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title part to all online players.
+   *
+   * @param titlePart the title part to broadcast
+   * @param string    the text to broadcast
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitlePart(
+      @NotNull TitlePart titlePart,
+      @NotNull String string,
+      @Nullable TagResolver... resolvers) {
+    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title part to all online players with custom fade-in and fade-out durations.
+   *
+   * @param titlePart the title part to broadcast
+   * @param string    the text to broadcast
+   * @param fadeIn    the fade-in duration
+   * @param fadeOut   the fade-out duration
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitlePart(
+      @NotNull TitlePart titlePart,
+      @NotNull String string,
+      @NotNull Duration fadeIn,
+      @NotNull Duration fadeOut,
+      @Nullable TagResolver... resolvers) {
+    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
+  }
+
+  /**
+   * Broadcasts a styled title part to all online players with custom fade-in, stay, and fade-out durations.
+   *
+   * @param titlePart the title part to broadcast
+   * @param string    the text to broadcast
+   * @param fadeIn    the fade-in duration
+   * @param stay      the stay duration
+   * @param fadeOut   the fade-out duration
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastTitlePart(
+      @NotNull TitlePart titlePart,
+      @NotNull String string,
+      @NotNull Duration fadeIn,
+      @NotNull Duration stay,
+      @NotNull Duration fadeOut,
+      @Nullable TagResolver... resolvers) {
+    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
   }
 
   /**
