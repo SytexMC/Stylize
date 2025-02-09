@@ -282,6 +282,19 @@ public final class Stylize {
   }
 
   /**
+   * Broadcasts a styled action bar message to all online players.
+   *
+   * @param string    the message to broadcast
+   * @param resolvers optional additional tag resolvers
+   */
+  public void broadcastActionBar(@NotNull String string, @Nullable TagResolver... resolvers) {
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      Component component = translate(string, player, resolvers);
+      player.sendActionBar(component);
+    });
+  }
+
+  /**
    * Sends a styled title to a player.
    *
    * @param player    the player to send the title to
