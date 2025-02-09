@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
@@ -236,29 +237,6 @@ public final class Stylize {
   }
 
   /**
-   * Broadcasts a styled message to all online players.
-   *
-   * @param string    the message to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastMessage(@NotNull String string, @Nullable TagResolver... resolvers) {
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      Component component = translate(string, player, resolvers);
-      player.sendMessage(component);
-    });
-  }
-
-  /**
-   * Broadcasts a list of styled messages to all online players.
-   *
-   * @param strings   the messages to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastMessage(@NotNull List<String> strings, @Nullable TagResolver... resolvers) {
-    strings.forEach(string -> broadcastMessage(string, resolvers));
-  }
-
-  /**
    * Sends a styled action bar message to a player.
    *
    * @param player    the player to send the action bar to
@@ -279,19 +257,6 @@ public final class Stylize {
    */
   public void sendActionBar(@NotNull List<Player> players, @NotNull String string, @Nullable TagResolver... resolvers) {
     players.forEach(player -> sendActionBar(player, string, resolvers));
-  }
-
-  /**
-   * Broadcasts a styled action bar message to all online players.
-   *
-   * @param string    the message to broadcast
-   * @param resolvers optional additional tag resolvers
-   */
-  public void broadcastActionBar(@NotNull String string, @Nullable TagResolver... resolvers) {
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      Component component = translate(string, player, resolvers);
-      player.sendActionBar(component);
-    });
   }
 
   /**
@@ -541,6 +506,40 @@ public final class Stylize {
    */
   public void clearTitle(@NotNull List<Player> players) {
     players.forEach(this::clearTitle);
+  }
+
+  /**
+   * Broadcasts a styled message to all online players.
+   *
+   * @param string    the message to broadcast
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastMessage(@NotNull String string, @Nullable TagResolver... resolvers) {
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      sendMessage(player, string, resolvers);
+    });
+  }
+
+  /**
+   * Broadcasts a list of styled messages to all online players.
+   *
+   * @param strings   the messages to broadcast
+   * @param resolvers additional tag resolvers
+   */
+  public void broadcastMessage(@NotNull List<String> strings, @Nullable TagResolver... resolvers) {
+    strings.forEach(string -> broadcastMessage(string, resolvers));
+  }
+
+  /**
+   * Broadcasts a styled action bar message to all online players.
+   *
+   * @param string    the message to broadcast
+   * @param resolvers optional additional tag resolvers
+   */
+  public void broadcastActionBar(@NotNull String string, @Nullable TagResolver... resolvers) {
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      sendActionBar(player, string, resolvers);
+    });
   }
 
   /**
