@@ -561,22 +561,22 @@ public final class Stylize {
       return this;
     }
 
-    public StylizeBuilder legacyCharacter(Character character) {
+    public StylizeBuilder addLegacyCharacter(Character character) {
       this.legacyCharacters.add(character);
       return this;
     }
 
-    public StylizeBuilder legacyCharacters(Collection<? extends Character> characters) {
+    public StylizeBuilder addLegacyCharacters(Collection<? extends Character> characters) {
       this.legacyCharacters.addAll(characters);
       return this;
     }
 
-    public StylizeBuilder tagResolver(TagResolver tagResolver) {
+    public StylizeBuilder addTagResolver(TagResolver tagResolver) {
       this.tagResolvers.add(tagResolver);
       return this;
     }
 
-    public StylizeBuilder tagResolvers(Collection<? extends TagResolver> tagResolvers) {
+    public StylizeBuilder addTagResolvers(Collection<? extends TagResolver> tagResolvers) {
       this.tagResolvers.addAll(tagResolvers);
       return this;
     }
