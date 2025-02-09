@@ -1,16 +1,17 @@
 <div align="center">  
   <img src="https://github.com/user-attachments/assets/4d79ab53-c6a1-4e41-abe6-b4ab0c193b40" alt="Stylize" style="width:800px;height:300px;"> 
   <br>
-  <img src="https://img.shields.io/jitpack/version/com.github.SytexMC/Stylize?style=flat-square">
-  <img src="https://img.shields.io/github/stars/sytexmc/stylize?style=flat-square">
-  <img src="https://img.shields.io/github/forks/sytexmc/stylize?style=flat-square">
-  <img src="https://img.shields.io/github/license/sytexmc/stylize?style=flat-square">
-  <img src="https://img.shields.io/github/last-commit/sytexmc/stylize?style=flat-square">
+  <img src="https://img.shields.io/jitpack/version/com.github.SytexMC/Stylize?style=flat-square&label=JitPack">
+  <img src="https://img.shields.io/github/stars/sytexmc/stylize?style=flat-square&label=Stars">
+  <img src="https://img.shields.io/github/forks/sytexmc/stylize?style=flat-square&label=Forks">
+  <a href="https://sytexmc.github.io/Stylize/javadocs/me/sytex/stylize/package-summary.html"><img alt="Static Badge" src="https://img.shields.io/badge/Javadocs-red?style=flat-square"></a>
+  <img src="https://img.shields.io/github/license/sytexmc/stylize?style=flat-square&label=License">
+  <img src="https://img.shields.io/github/last-commit/sytexmc/stylize?style=flat-square&label=Last Commit">
 </div>
 
 <br>
 <p align="center">
-  A lightweight & highly configurable library for text formatting in <a href="https://papermc.io/">Paper</a> plugins, <br>
+  A highly configurable & lightweight library for text formatting in <a href="https://papermc.io/">Paper</a> plugins, <br>
   with built-in support for <a href="https://docs.advntr.dev/minimessage/index.html">MiniMessages</a>, <a href="https://modrinth.com/plugin/miniplaceholders">MiniPlaceholders</a> & <a href="https://www.spigotmc.org/resources/placeholderapi.6245/">PlaceholderAPI</a>.
 </p>
 
