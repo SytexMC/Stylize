@@ -23,10 +23,11 @@ Stylize requires at least <a href="https://adoptium.net/de/temurin/releases/?ver
 To add it to your project, include one of the following snippets in your build script.
 </p>
 
-#### Gradle (Kotlin DSL)
+<details>
+  <summary><strong>Gradle (Kotlin DSL)</strong></summary>
 
-```kotlin
-repositories {
+  ```kotlin
+  repositories {
     maven("https://jitpack.io")
 }
 
@@ -34,9 +35,12 @@ dependencies {
     compileOnly("com.github.SytexMC:Stylize:v1.0.1")
 }
 ```
+</details>
+<br>
+<details>
+  <summary><strong>Gradle (Groovy)</strong></summary>
 
-#### Gradle (Groovy)
-```groovy
+  ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
@@ -45,9 +49,12 @@ dependencies {
     implementation 'com.github.SytexMC:Stylize:v1.0.1'
 }
 ```
+</details>
+<br>
+<details>
+  <summary><strong>Maven</strong></summary>
 
-#### Maven
-```xml
+  ```xml
 <repository>
   <id>jitpack.io</id>
   <url>https://jitpack.io</url>
@@ -60,9 +67,8 @@ dependencies {
   <version>v1.0.1</version>
   <scope>provided</scope>
 </dependency>
-
 ```
-
+</details>
 <h2></h2>
 
 ### Obtaining a Stylize Instance  
