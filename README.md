@@ -70,76 +70,48 @@ dependencies {
 </dependency>
 ```
 </details>
+
 <h2></h2>
 
-### Obtaining a Stylize Instance  
+### Usage
 
-Stylize provides two ways to get an instance, depending on your needs:  
+Stylize offers two ways to get started, depending on your needs:
 
-#### 1. Quick & Ready-to-Use  
-
-Preconfigured with MiniPlaceholders & PlaceholderAPI support as well as a few default resolvers.
+- **Easy Setup**: If you want to get started quickly, use the `stylize()` method. This will set up Stylize with the most common options, including support for MiniPlaceholders and PlaceholderAPI.
 
 ```java
 Stylize stylize = Stylize.stylize();
 ```
 
-#### 2. Fully Configurable
-
-If you need more control, use the builder to customize the enabled features and tag resolvers:
+- **Custom Setup**: If you need more control, use the `builder()` method. This allows you to choose the specific features and options you want to use.
 
 ```java
 Stylize stylize = Stylize.builder()
-    .useMiniPlaceholders(true) 
-    .usePlaceholderAPI(true) 
-    .tagResolver(StandardTags.defaults()) 
-    .build();
+.useMiniPlaceholders(true)
+.usePlaceholderAPI(true)
+.tagResolver(StandardTags.defaults())
+.build();
 ```
 
-<h2></h2>
+Once you have a Stylize object, you can use it to translate strings into styled components.
 
-### Usage Examples
-
-Some usage examples of how to use your newly obtained Stylize instance
-
-#### Translating Strings
-
-Translate strings into components using the defined TagResolvers. <br>
-These methods support player-specific placeholders, relational placeholders, and custom tag resolvers.
+- **Translating Strings**: The `translate()` method takes a string and returns a styled component. You can also pass in additional arguments to customize the translation.
 
 ```java
-// Translate a simple string
-stylize.translate(string);
-
-// Include player-specific placeholders (e.g., player name, health, etc.)
-stylize.translate(string, player);
-
-// Use relational placeholders involving multiple players (e.g., one player to another)
-stylize.translate(string, player1, player2);
-
-// Use custom tag resolvers along with the player context
-stylize.translate(string, player, tagResolver);
+stylize.translate(string); // Basic use
+stylize.translate(string, player); // For player-specific placeholders
+stylize.translate(string, player1, player2); // For relational placeholders
+stylize.translate(string, player, tagResolver); // For custom tag resolvers
 ```
 
-#### Additional Methods
-
-Methods that translate strings into components and send them in various contexts, including chat messages, action bars, and titles.
+- **Sending Messages**: Stylize also provides methods for sending messages to players in different contexts.
 
 ```java
-// Send a personalized chat message to a player
-stylize.sendMessage(player, "<green>Hello, world!");
-
-// Broadcast a message to all players on the server
-stylize.broadcastMessage("<yellow>Server-wide announcement!");
-
-// Display a temporary action bar message for a player
-stylize.sendActionBar(player, "<blue>Action bar message");
-
-// Send a full title (main title and subtitle) to a player
-stylize.sendTitle(player, "<red>Big Title", "<gray>Subtitle text");
-
-// Set a specific part of the title (e.g., subtitle) for a player
-stylize.sendTitlePart(player, TitlePart.SUBTITLE, "<gold>Some subtitle :)");
+stylize.sendMessage(player, "<green>Hello, world!"); // Send a chat message
+stylize.broadcastMessage("<yellow>Server-wide announcement!"); // Broadcast a message to all players
+stylize.sendActionBar(player, "<blue>Action bar message"); // Send an action bar message
+stylize.sendTitle(player, "<red>Big Title", "<gray>Subtitle text"); // Send a title
+stylize.sendTitlePart(player, TitlePart.SUBTITLE, "<gold>Some subtitle :)"); // Send a title
 ```
 
 <h2></h2>
