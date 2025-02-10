@@ -106,9 +106,11 @@ jobs:
           # Directory containing the generated Javadocs
           publish_dir: build/docs/javadoc
           # Subdirectory on the gh-pages branch to deploy the Javadocs
-          destination_dir: javadoc
+          destination_dir: javadocs
           # Branch to deploy the Javadocs to
           publish_branch: gh-pages
+          # Forces a clean commit instead of updating existing files           
+          force_orphan: true
 
   # Job for submitting dependency graphs
   dependency-submission:
