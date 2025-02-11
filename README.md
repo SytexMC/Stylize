@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.SytexMC:Stylize:v1.1.0")
+    compileOnly("com.github.SytexMC:Stylize:v1.1.1")
 }
 
 shadowJar {
@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.SytexMC:Stylize:v1.1.0'
+    implementation 'com.github.SytexMC:Stylize:v1.1.1'
 }
 
 shadowJar {
