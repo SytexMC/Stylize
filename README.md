@@ -28,12 +28,22 @@ To add it to your project, include one of the following snippets in your build s
   <summary><strong>Gradle (Kotlin DSL)</strong></summary>
 
   ```kotlin
-  repositories {
+plugins {
+    java
+    id("com.gradleup.shadow") version "8.3.3"
+}
+
+repositories {
     maven("https://jitpack.io")
 }
 
 dependencies {
     compileOnly("com.github.SytexMC:Stylize:v1.1.0")
+}
+
+shadowJar {
+    // TODO: Change this to my own package name
+    relocate("me.sytex.stylize", "my.custom.package.stylize")
 }
 ```
 </details>
@@ -42,6 +52,11 @@ dependencies {
   <summary><strong>Gradle (Groovy)</strong></summary>
 
   ```groovy
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.3'
+}
+
 repositories {
     maven { url 'https://jitpack.io' }
 }
@@ -49,25 +64,11 @@ repositories {
 dependencies {
     implementation 'com.github.SytexMC:Stylize:v1.1.0'
 }
-```
-</details>
-<br>
-<details>
-  <summary><strong>Maven</strong></summary>
 
-  ```xml
-<repository>
-  <id>jitpack.io</id>
-  <url>https://jitpack.io</url>
-</repository>
-
-
-<dependency>
-  <groupId>com.github.SytexMC</groupId>
-  <artifactId>Stylize</artifactId>
-  <version>v1.1.0</version>
-  <scope>provided</scope>
-</dependency>
+shadowJar {
+    // TODO: Change this to my own package name
+    relocate("me.sytex.stylize", "my.custom.package.stylize")
+}
 ```
 </details>
 
