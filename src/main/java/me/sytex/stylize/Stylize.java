@@ -2,12 +2,12 @@ package me.sytex.stylize;
 
 import io.github.miniplaceholders.api.MiniPlaceholders;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
@@ -191,455 +191,97 @@ public final class Stylize {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Sends a styled message to a recipient.
-   *
-   * @param recipient the recipient of the message
-   * @param string    the message to send
-   * @param resolvers additional tag resolvers
-   */
-  public void sendMessage(@NotNull CommandSender recipient, @NotNull String string, @Nullable TagResolver... resolvers) {
-    Component component = translate(string, recipient, resolvers);
-    recipient.sendMessage(component);
+  public void sendMessage(@NotNull Audience audience, @NotNull String string, @Nullable TagResolver... resolvers) {
+    audience.forEachAudience(recipient -> {
+      Component component = translate(string, (CommandSender) recipient, resolvers);
+      recipient.sendMessage(component);
+    });
   }
 
-  /**
-   * Sends a list of styled messages to a recipient.
-   *
-   * @param recipient the recipient of the messages
-   * @param strings   the messages to send
-   * @param resolvers additional tag resolvers
-   */
-  public void sendMessage(@NotNull CommandSender recipient, @NotNull List<String> strings, @Nullable TagResolver... resolvers) {
-    strings.forEach(string -> sendMessage(recipient, string, resolvers));
+  public void sendMessages(@NotNull Audience audience, @NotNull List<String> strings, @Nullable TagResolver... resolvers) {
+    audience.forEachAudience(recipient -> {
+      List<Component> messages = strings.stream()
+          .map(string -> translate(string, (CommandSender) recipient, resolvers))
+          .toList();
+
+      messages.forEach(recipient::sendMessage);
+    });
   }
 
-  /**
-   * Sends a styled message to a list of recipients.
-   *
-   * @param recipients the recipients of the message
-   * @param string     the message to send
-   * @param resolvers  additional tag resolvers
-   */
-  public void sendMessage(@NotNull List<CommandSender> recipients, @NotNull String string, @Nullable TagResolver... resolvers) {
-    recipients.forEach(recipient -> sendMessage(recipient, string, resolvers));
+  public void sendActionBar(@NotNull Audience audience, @NotNull String string, @Nullable TagResolver... resolvers) {
+    audience.forEachAudience(recipient -> {
+      Component component = translate(string, (CommandSender) recipient, resolvers);
+      recipient.sendActionBar(component);
+    });
   }
 
-  /**
-   * Sends a list of styled messages to a list of recipients.
-   *
-   * @param recipients the recipients of the messages
-   * @param strings    the messages to send
-   * @param resolvers  additional tag resolvers
-   */
-  public void sendMessage(@NotNull List<CommandSender> recipients, @NotNull List<String> strings, @Nullable TagResolver... resolvers) {
-    recipients.forEach(recipient -> strings.forEach(string -> sendMessage(recipient, string, resolvers)));
+  public void sendTitle(@NotNull Audience audience, @NotNull String title, @NotNull String subTitle, @Nullable TagResolver... resolvers) {
+    sendTitle(audience, title, subTitle, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
   }
 
-  /**
-   * Sends a styled action bar message to a player.
-   *
-   * @param player    the player to send the action bar to
-   * @param string    the message to send
-   * @param resolvers additional tag resolvers
-   */
-  public void sendActionBar(@NotNull Player player, @NotNull String string, @Nullable TagResolver... resolvers) {
-    Component component = translate(string, player, resolvers);
-    player.sendActionBar(component);
-  }
-
-  /**
-   * Sends a styled action bar message to a list of players.
-   *
-   * @param players   the players to send the action bar to
-   * @param string    the message to send
-   * @param resolvers additional tag resolvers
-   */
-  public void sendActionBar(@NotNull List<Player> players, @NotNull String string, @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendActionBar(player, string, resolvers));
-  }
-
-  /**
-   * Sends a styled title to a player.
-   *
-   * @param player    the player to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitle(@NotNull Player player, @NotNull String title, @NotNull String subTitle, @Nullable TagResolver... resolvers) {
-    sendTitle(player, title, subTitle, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
-  }
-
-  /**
-   * Sends a styled title to a player with custom fade-in and fade-out durations.
-   *
-   * @param player    the player to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
   public void sendTitle(
-      @NotNull Player player,
+      @NotNull Audience audience,
       @NotNull String title,
       @NotNull String subTitle,
       @NotNull Duration fadeIn,
       @NotNull Duration fadeOut,
       @Nullable TagResolver... resolvers) {
-    sendTitle(player, title, subTitle, fadeIn, Duration.ofMillis(3500), fadeOut, resolvers);
+    sendTitle(audience, title, subTitle, fadeIn, fadeOut, Duration.ofMillis(3500), resolvers);
   }
 
-  /**
-   * Sends a styled title to a player with custom fade-in, stay, and fade-out durations.
-   *
-   * @param player    the player to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
   public void sendTitle(
-      @NotNull Player player,
+      @NotNull Audience audience,
       @NotNull String title,
       @NotNull String subTitle,
       @NotNull Duration fadeIn,
       @NotNull Duration stay,
       @NotNull Duration fadeOut,
       @Nullable TagResolver... resolvers) {
-    Times times = Times.times(fadeIn, stay, fadeOut);
+    audience.forEachAudience(recipient -> {
+      Times times = Times.times(fadeIn, stay, fadeOut);
 
-    player.sendTitlePart(TitlePart.TIMES, times);
-    player.sendTitlePart(TitlePart.TITLE, translate(title, player, resolvers));
-    player.sendTitlePart(TitlePart.SUBTITLE, translate(subTitle, player, resolvers));
+      recipient.sendTitlePart(TitlePart.TIMES, times);
+      recipient.sendTitlePart(TitlePart.TITLE, translate(title, (CommandSender) recipient, resolvers));
+      recipient.sendTitlePart(TitlePart.SUBTITLE, translate(subTitle, (CommandSender) recipient, resolvers));
+    });
   }
 
-  /**
-   * Sends a styled title to a list of players.
-   *
-   * @param players   the players to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitle(@NotNull List<Player> players, @NotNull String title, @NotNull String subTitle, @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitle(player, title, subTitle, resolvers));
-  }
-
-  /**
-   * Sends a styled title to a list of players with custom fade-in and fade-out durations.
-   *
-   * @param players   the players to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitle(
-      @NotNull List<Player> players,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitle(player, title, subTitle, fadeIn, fadeOut, resolvers));
-  }
-
-  /**
-   * Sends a styled title to a list of players with custom fade-in, stay, and fade-out durations.
-   *
-   * @param players   the players to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitle(
-      @NotNull List<Player> players,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitle(player, title, subTitle, fadeIn, stay, fadeOut, resolvers));
-  }
-
-  /**
-   * Sends a styled title part to a player.
-   *
-   * @param player    the player to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param resolvers additional tag resolvers
-   */
   public void sendTitlePart(
-      @NotNull Player player,
+      @NotNull Audience audience,
       @NotNull TitlePart titlePart,
       @NotNull String string,
       @Nullable TagResolver... resolvers) {
-    sendTitlePart(player, titlePart, string, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
+    sendTitlePart(audience, titlePart, string, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
   }
 
-  /**
-   * Sends a styled title part to a player with custom fade-in and fade-out durations.
-   *
-   * @param player    the player to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
   public void sendTitlePart(
-      @NotNull Player player,
+      @NotNull Audience audience,
       @NotNull TitlePart titlePart,
       @NotNull String string,
       @NotNull Duration fadeIn,
       @NotNull Duration fadeOut,
       @Nullable TagResolver... resolvers) {
-    sendTitlePart(player, titlePart, string, fadeIn, Duration.ofMillis(3500), fadeOut, resolvers);
+    sendTitlePart(audience, titlePart, string, fadeIn, Duration.ofMillis(3500), fadeOut, resolvers);
   }
 
-  /**
-   * Sends a styled title part to a player with custom fade-in, stay, and fade-out durations.
-   *
-   * @param player    the player to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
   public void sendTitlePart(
-      @NotNull Player player,
+      @NotNull Audience audience,
       @NotNull TitlePart titlePart,
       @NotNull String string,
       @NotNull Duration fadeIn,
       @NotNull Duration stay,
       @NotNull Duration fadeOut,
       @Nullable TagResolver... resolvers) {
-    Times times = Times.times(fadeIn, stay, fadeOut);
+    audience.forEachAudience(recipient -> {
+      Times times = Times.times(fadeIn, stay, fadeOut);
 
-    player.sendTitlePart(TitlePart.TIMES, times);
-    player.sendTitlePart(titlePart, translate(string, player, resolvers));
+      recipient.sendTitlePart(TitlePart.TIMES, times);
+      recipient.sendTitlePart(titlePart, translate(string, (CommandSender) recipient, resolvers));
+    });
   }
 
-  /**
-   * Sends a styled title part to a list of players.
-   *
-   * @param players   the players to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitlePart(
-      @NotNull List<Player> players,
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitlePart(player, titlePart, string, resolvers));
-  }
-
-  /**
-   * Sends a styled title part to a list of players with custom fade-in and fade-out durations.
-   *
-   * @param players   the players to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitlePart(
-      @NotNull List<Player> players,
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitlePart(player, titlePart, string, fadeIn, fadeOut, resolvers));
-  }
-
-  /**
-   * Sends a styled title part to a list of players with custom fade-in, stay, and fade-out durations.
-   *
-   * @param players   the players to send the title part to
-   * @param titlePart the title part to send
-   * @param string    the text to send
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void sendTitlePart(
-      @NotNull List<Player> players,
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    players.forEach(player -> sendTitlePart(player, titlePart, string, fadeIn, stay, fadeOut, resolvers));
-  }
-
-  /**
-   * Clears the title for a player.
-   *
-   * @param player the player to clear the title for
-   */
-  public void clearTitle(@NotNull Player player) {
-    player.clearTitle();
-  }
-
-  /**
-   * Clears the title for a list of players.
-   *
-   * @param players the players to clear the title for
-   */
-  public void clearTitle(@NotNull List<Player> players) {
-    players.forEach(this::clearTitle);
-  }
-
-  /**
-   * Broadcasts a styled message to all online players.
-   *
-   * @param string    the message to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastMessage(@NotNull String string, @Nullable TagResolver... resolvers) {
-    sendMessage(List.copyOf(Bukkit.getOnlinePlayers()), string, resolvers);
-  }
-
-  /**
-   * Broadcasts a list of styled messages to all online players.
-   *
-   * @param strings   the messages to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastMessage(@NotNull List<String> strings, @Nullable TagResolver... resolvers) {
-    strings.forEach(string -> broadcastMessage(string, resolvers));
-  }
-
-  /**
-   * Broadcasts a styled action bar message to all online players.
-   *
-   * @param string    the message to broadcast
-   * @param resolvers optional additional tag resolvers
-   */
-  public void broadcastActionBar(@NotNull String string, @Nullable TagResolver... resolvers) {
-    sendActionBar(List.copyOf(Bukkit.getOnlinePlayers()), string, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title to all online players.
-   *
-   * @param title     the title text to broadcast
-   * @param subTitle  the subtitle text to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitle(
-      @NotNull String title,
-      @NotNull String subTitle,
-      @Nullable TagResolver... resolvers) {
-    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title to all online players with custom fade-in and fade-out durations.
-   *
-   * @param title     the title text to broadcast
-   * @param subTitle  the subtitle text to broadcast
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitle(
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, fadeIn, fadeOut, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title to all online players with custom fade-in, stay, and fade-out durations.
-   *
-   * @param title     the title text to broadcast
-   * @param subTitle  the subtitle text to broadcast
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitle(
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    sendTitle(List.copyOf(Bukkit.getOnlinePlayers()), title, subTitle, fadeIn, stay, fadeOut, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title part to all online players.
-   *
-   * @param titlePart the title part to broadcast
-   * @param string    the text to broadcast
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitlePart(
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @Nullable TagResolver... resolvers) {
-    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title part to all online players with custom fade-in and fade-out durations.
-   *
-   * @param titlePart the title part to broadcast
-   * @param string    the text to broadcast
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitlePart(
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
-  }
-
-  /**
-   * Broadcasts a styled title part to all online players with custom fade-in, stay, and fade-out durations.
-   *
-   * @param titlePart the title part to broadcast
-   * @param string    the text to broadcast
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param resolvers additional tag resolvers
-   */
-  public void broadcastTitlePart(
-      @NotNull TitlePart titlePart,
-      @NotNull String string,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @Nullable TagResolver... resolvers) {
-    sendTitlePart(List.copyOf(Bukkit.getOnlinePlayers()), titlePart, string, resolvers);
+  public void clearTitle(@NotNull Audience audience) {
+    audience.clearTitle();
   }
 
   /**
