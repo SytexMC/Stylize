@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SytexMC:Stylize:v1.1.1")
+    implementation("com.github.SytexMC:Stylize:1.1.2")
 }
 
 shadowJar {
@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.SytexMC:Stylize:v1.1.1'
+    implementation 'com.github.SytexMC:Stylize:1.1.2'
 }
 
 shadowJar {
@@ -109,10 +109,9 @@ stylize.translate(string, player, tagResolver); // For custom tag resolvers
 
 ```java
 stylize.sendMessage(player, "<green>Hello, world!"); // Send a chat message
-stylize.broadcastMessage("<yellow>Server-wide announcement!"); // Broadcast a message to all players
 stylize.sendActionBar(player, "<blue>Action bar message"); // Send an action bar message
 stylize.sendTitle(player, "<red>Big Title", "<gray>Subtitle text"); // Send a title
-stylize.sendTitlePart(player, TitlePart.SUBTITLE, "<gold>Some subtitle :)"); // Send a title
+stylize.sendTitlePart(player, TitlePart.SUBTITLE, "<gold>Some subtitle :)"); // Send a title part
 ```
 
 <h2></h2>
