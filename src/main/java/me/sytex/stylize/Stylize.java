@@ -191,6 +191,13 @@ public final class Stylize {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Sends a translated message to the specified audience.
+   *
+   * @param audience the audience to send the message to
+   * @param string the message to translate and send
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendMessage(@NotNull Audience audience, @NotNull String string, @Nullable TagResolver... resolvers) {
     audience.forEachAudience(recipient -> {
       Component component = translate(string, (CommandSender) recipient, resolvers);
@@ -198,6 +205,13 @@ public final class Stylize {
     });
   }
 
+  /**
+   * Sends a list of translated messages to the specified audience.
+   *
+   * @param audience the audience to send the messages to
+   * @param strings the list of messages to translate and send
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendMessages(@NotNull Audience audience, @NotNull List<String> strings, @Nullable TagResolver... resolvers) {
     audience.forEachAudience(recipient -> {
       List<Component> messages = strings.stream()
@@ -208,6 +222,13 @@ public final class Stylize {
     });
   }
 
+  /**
+   * Sends a translated action bar message to the specified audience.
+   *
+   * @param audience the audience to send the action bar message to
+   * @param string the message to translate and send
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendActionBar(@NotNull Audience audience, @NotNull String string, @Nullable TagResolver... resolvers) {
     audience.forEachAudience(recipient -> {
       Component component = translate(string, (CommandSender) recipient, resolvers);
@@ -215,10 +236,28 @@ public final class Stylize {
     });
   }
 
+  /**
+   * Sends a translated title and subtitle to the specified audience with default timings.
+   *
+   * @param audience the audience to send the title to
+   * @param title the title to translate and send
+   * @param subTitle the subtitle to translate and send
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitle(@NotNull Audience audience, @NotNull String title, @NotNull String subTitle, @Nullable TagResolver... resolvers) {
     sendTitle(audience, title, subTitle, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
   }
 
+  /**
+   * Sends a translated title and subtitle to the specified audience with custom fade-in and fade-out timings.
+   *
+   * @param audience the audience to send the title to
+   * @param title the title to translate and send
+   * @param subTitle the subtitle to translate and send
+   * @param fadeIn the duration for the title to fade in
+   * @param fadeOut the duration for the title to fade out
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -229,6 +268,17 @@ public final class Stylize {
     sendTitle(audience, title, subTitle, fadeIn, fadeOut, Duration.ofMillis(3500), resolvers);
   }
 
+  /**
+   * Sends a translated title and subtitle to the specified audience with custom timings.
+   *
+   * @param audience the audience to send the title to
+   * @param title the title to translate and send
+   * @param subTitle the subtitle to translate and send
+   * @param fadeIn the duration for the title to fade in
+   * @param stay the duration for the title to stay on screen
+   * @param fadeOut the duration for the title to fade out
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -246,6 +296,14 @@ public final class Stylize {
     });
   }
 
+  /**
+   * Sends a translated title part to the specified audience with default timings.
+   *
+   * @param audience the audience to send the title part to
+   * @param titlePart the part of the title to send
+   * @param string the text to translate and send
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitlePart(
       @NotNull Audience audience,
       @NotNull TitlePart titlePart,
@@ -254,6 +312,16 @@ public final class Stylize {
     sendTitlePart(audience, titlePart, string, Duration.ofMillis(1000), Duration.ofMillis(3500), Duration.ofMillis(500), resolvers);
   }
 
+  /**
+   * Sends a translated title part to the specified audience with custom fade-in and fade-out timings.
+   *
+   * @param audience the audience to send the title part to
+   * @param titlePart the part of the title to send
+   * @param string the text to translate and send
+   * @param fadeIn the duration for the title part to fade in
+   * @param fadeOut the duration for the title part to fade out
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitlePart(
       @NotNull Audience audience,
       @NotNull TitlePart titlePart,
@@ -264,6 +332,17 @@ public final class Stylize {
     sendTitlePart(audience, titlePart, string, fadeIn, Duration.ofMillis(3500), fadeOut, resolvers);
   }
 
+  /**
+   * Sends a translated title part to the specified audience with custom timings.
+   *
+   * @param audience the audience to send the title part to
+   * @param titlePart the part of the title to send
+   * @param string the text to translate and send
+   * @param fadeIn the duration for the title part to fade in
+   * @param stay the duration for the title part to stay on screen
+   * @param fadeOut the duration for the title part to fade out
+   * @param resolvers optional tag resolvers for translation
+   */
   public void sendTitlePart(
       @NotNull Audience audience,
       @NotNull TitlePart titlePart,
@@ -280,6 +359,11 @@ public final class Stylize {
     });
   }
 
+  /**
+   * Clears the currently displayed title for the specified audience.
+   *
+   * @param audience the audience to clear the title for
+   */
   public void clearTitle(@NotNull Audience audience) {
     audience.clearTitle();
   }
