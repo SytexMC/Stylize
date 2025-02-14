@@ -35,14 +35,16 @@ public final class Stylize {
   private final boolean useMiniPlaceholders;
   private final boolean useLegacyFormatting;
   private final List<Character> legacyCharacters;
-  private final List<TagResolver> tagResolvers;
+  private final TagResolver tagResolver;
 
   private Stylize(boolean usePlaceholderAPI, boolean useMiniPlaceholders, boolean useLegacyFormatting, List<Character> legacyCharacters, List<TagResolver> tagResolvers) {
     this.usePlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI") && usePlaceholderAPI;
     this.useMiniPlaceholders = Bukkit.getPluginManager().isPluginEnabled("MiniPlaceholders") && useMiniPlaceholders;
     this.useLegacyFormatting = useLegacyFormatting;
     this.legacyCharacters = List.copyOf(legacyCharacters);
-    this.tagResolvers = List.copyOf(tagResolvers);
+    this.tagResolver = TagResolver.builder()
+        .resolvers(tagResolvers)
+        .build();
   }
 
   /**
@@ -109,7 +111,9 @@ public final class Stylize {
       @Nullable CommandSender sender2,
       @Nullable TagResolver... resolvers) {
 
-    List<TagResolver> combinedResolvers = new ArrayList<>(tagResolvers);
+    List<TagResolver> combinedResolvers = new ArrayList<>();
+    combinedResolvers.add(tagResolver);
+
     if (resolvers != null) {
       combinedResolvers.addAll(Arrays.asList(resolvers));
     }
