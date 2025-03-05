@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "me.sytex"
-version = "1.1.2"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
@@ -13,15 +13,16 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
 
-    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.2.3")
+    // Placeholders
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")
     compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
     withSourcesJar()
     withJavadocJar()
@@ -36,7 +37,7 @@ tasks {
                 addStringOption("charSet", "UTF-8")
                 addBooleanOption("html5", true)
                 links("https://docs.oracle.com/en/java/javase/17/docs/api/")
-                links("https://jd.papermc.io/paper/1.18.2/")
+                links("https://jd.papermc.io/paper/1.20.6/")
             }
         }
     }
