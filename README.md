@@ -12,10 +12,9 @@
   <img alt="Badge" src="https://img.shields.io/badge/Javadocs-red?style=flat-square"></a>
   <img alt="Badge" src="https://img.shields.io/github/license/sytexmc/stylize?style=flat-square&label=License">
   <img alt="Badge" src="https://img.shields.io/github/last-commit/sytexmc/stylize?style=flat-square&label=Last Commit">
-  
-  <br>
 
   <p>
+    <br>
     A library for formatting and sending text using Adventure's <a href="https://docs.advntr.dev/minimessage/index.html">MiniMessage</a> format, as well as legacy formats.<br>
     Provides support for both <a href="https://www.spigotmc.org/resources/placeholderapi.6245/">PlaceholderAPI</a> and <a href="https://modrinth.com/plugin/miniplaceholders">MiniPlaceholders</a> integrations.
   </p>
