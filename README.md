@@ -4,14 +4,11 @@
   <br>
 
   <img alt="Badge" src="https://img.shields.io/jitpack/version/com.github.SytexMC/Stylize?style=flat-square&label=JitPack">
-  <img alt="Badge" src="https://img.shields.io/github/stars/sytexmc/stylize?style=flat-square&label=Stars">
-  <img alt="Badge" src="https://img.shields.io/github/forks/sytexmc/stylize?style=flat-square&label=Forks">
   <a href="https://sytexmc.gitbook.io/stylize">
   <img alt="Badge" src="https://img.shields.io/badge/Documentation-red?style=flat-square"></a>
   <a href="https://sytexmc.github.io/Stylize/javadocs/me/sytex/stylize/package-summary.html">
   <img alt="Badge" src="https://img.shields.io/badge/Javadocs-red?style=flat-square"></a>
   <img alt="Badge" src="https://img.shields.io/github/license/sytexmc/stylize?style=flat-square&label=License">
-  <img alt="Badge" src="https://img.shields.io/github/last-commit/sytexmc/stylize?style=flat-square&label=Last Commit">
 
   <p>
     <br>
