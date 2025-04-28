@@ -180,14 +180,38 @@ public final class Stylize {
   }
 
   /**
-   * Serializes a Component into a MiniMessage format string.
+   * Serializes a {@link Component} into a MiniMessage format string.
    *
-   * @param component The Component to serialize
+   * <p>This method uses the default set of {@link TagResolver}s defined in the class
+   * to serialize the given {@link Component} into a MiniMessage string representation.</p>
+   *
+   * @param component The {@link Component} to serialize
    * @return The serialized string in MiniMessage format
    */
   public @NotNull String serialize(@NotNull Component component) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(tags)
+        .build();
+
+    return miniMessage.serialize(component);
+  }
+
+  /**
+   * Serializes a {@link Component} into a MiniMessage format string
+   * using the provided {@link TagResolver}s.
+   *
+   * <p>This method allows customization of the serialization process by providing
+   * specific {@link TagResolver}s to be used when serializing the given {@link Component}.</p>
+   *
+   * @param component The {@link Component} to serialize
+   * @param resolvers An optional array of {@link TagResolver}s to use during serialization
+   * @return The serialized string in MiniMessage format
+   */
+  public @NotNull String serialize(@NotNull Component component, @NotNull TagResolver... resolvers) {
+    MiniMessage miniMessage = MiniMessage.builder()
+        .tags(TagResolver.builder()
+            .resolvers(resolvers)
+            .build())
         .build();
 
     return miniMessage.serialize(component);
