@@ -6,7 +6,6 @@ import io.github.miniplaceholders.api.MiniPlaceholders;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.pointer.Pointered;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -82,29 +81,7 @@ public final class Stylize {
    * @return The deserialized Component
    */
   public @NotNull Component deserialize(@NotNull String string) {
-    return deserialize(string, (Pointered) null, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with a target for placeholders.
-   *
-   * @param string The string to deserialize
-   * @param target The target object for placeholders
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @Nullable Pointered target) {
-    return deserialize(string, target, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with additional tag resolvers.
-   *
-   * @param string   The string to deserialize
-   * @param resolver Additional tag resolvers to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull TagResolver resolver) {
-    return deserialize(string, (Pointered) null, resolver);
+    return deserialize(string, TagResolver.empty());
   }
 
   /**
@@ -115,30 +92,6 @@ public final class Stylize {
    * @return The deserialized Component
    */
   public @NotNull Component deserialize(@NotNull String string, final @NotNull TagResolver... resolvers) {
-    return deserialize(string, (Pointered) null, resolvers);
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with a target and additional tag resolver.
-   *
-   * @param string   The string to deserialize
-   * @param target   The target object for placeholders
-   * @param resolver Additional tag resolver to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @Nullable Pointered target, final @NotNull TagResolver resolver) {
-    return deserialize(string, target, new TagResolver[]{resolver});
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with a target and multiple additional tag resolvers.
-   *
-   * @param string    The string to deserialize
-   * @param target    The target object for placeholders
-   * @param resolvers Additional tag resolvers to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @Nullable Pointered target, final @NotNull TagResolver... resolvers) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(TagResolver.builder()
             .resolver(tags)
@@ -149,7 +102,7 @@ public final class Stylize {
 
     string = applyLegacyFormatting(string);
 
-    return target != null ? miniMessage.deserialize(string, target) : miniMessage.deserialize(string);
+    return miniMessage.deserialize(string);
   }
 
   /**
@@ -161,33 +114,7 @@ public final class Stylize {
    * @return The deserialized Component
    */
   public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player) {
-    return deserialize(string, player, (Pointered) null, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with player context and target.
-   * Processes PlaceholderAPI and MiniPlaceholder placeholders if enabled.
-   *
-   * @param string The string to deserialize
-   * @param player The player audience for context
-   * @param target The target object for placeholders
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player, final @Nullable Pointered target) {
-    return deserialize(string, player, target, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with player context and additional tag resolver.
-   * Processes PlaceholderAPI and MiniPlaceholder placeholders if enabled.
-   *
-   * @param string   The string to deserialize
-   * @param player   The player audience for context
-   * @param resolver Additional tag resolver to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player, final @NotNull TagResolver resolver) {
-    return deserialize(string, player, (Pointered) null, resolver);
+    return deserialize(string, player, TagResolver.empty());
   }
 
   /**
@@ -200,36 +127,6 @@ public final class Stylize {
    * @return The deserialized Component
    */
   public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player, final @NotNull TagResolver... resolvers) {
-    return deserialize(string, player, (Pointered) null, resolvers);
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with player context, target, and additional tag resolver.
-   * Processes PlaceholderAPI and MiniPlaceholder placeholders if enabled.
-   *
-   * @param string   The string to deserialize
-   * @param player   The player audience for context
-   * @param target   The target object for placeholders
-   * @param resolver Additional tag resolver to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player, final @Nullable Pointered target,
-      final @NotNull TagResolver resolver) {
-    return deserialize(string, player, target, new TagResolver[]{resolver});
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with player context, target, and multiple additional tag resolvers.
-   * Processes PlaceholderAPI and MiniPlaceholder placeholders if enabled.
-   *
-   * @param string    The string to deserialize
-   * @param player    The player audience for context
-   * @param target    The target object for placeholders
-   * @param resolvers Additional tag resolvers to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience player, final @Nullable Pointered target,
-      final @NotNull TagResolver... resolvers) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(TagResolver.builder()
             .resolver(tags)
@@ -241,7 +138,7 @@ public final class Stylize {
     string = applyPlaceholderAPI(string, player);
     string = applyLegacyFormatting(string);
 
-    return target != null ? miniMessage.deserialize(string, target) : miniMessage.deserialize(string);
+    return miniMessage.deserialize(string, player);
   }
 
   /**
@@ -254,37 +151,7 @@ public final class Stylize {
    * @return The deserialized Component
    */
   public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer) {
-    return deserialize(string, primaryPlayer, secondaryPlayer, (Pointered) null, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with primary and secondary player context and target.
-   * Processes PlaceholderAPI and MiniPlaceholder relational placeholders if enabled.
-   *
-   * @param string         The string to deserialize
-   * @param primaryPlayer   The primary player audience for context
-   * @param secondaryPlayer The secondary player audience for relational placeholders
-   * @param target         The target object for placeholders
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer,
-      final @Nullable Pointered target) {
-    return deserialize(string, primaryPlayer, secondaryPlayer, target, TagResolver.empty());
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with primary and secondary player context and additional tag resolver.
-   * Processes PlaceholderAPI and MiniPlaceholder relational placeholders if enabled.
-   *
-   * @param string         The string to deserialize
-   * @param primaryPlayer   The primary player audience for context
-   * @param secondaryPlayer The secondary player audience for relational placeholders
-   * @param resolver       Additional tag resolver to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer,
-      final @NotNull TagResolver resolver) {
-    return deserialize(string, primaryPlayer, secondaryPlayer, (Pointered) null, resolver);
+    return deserialize(string, primaryPlayer, secondaryPlayer, TagResolver.empty());
   }
 
   /**
@@ -297,40 +164,7 @@ public final class Stylize {
    * @param resolvers      Additional tag resolvers to use
    * @return The deserialized Component
    */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer,
-      final @NotNull TagResolver... resolvers) {
-    return deserialize(string, primaryPlayer, secondaryPlayer, (Pointered) null, resolvers);
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with primary and secondary player context, target, and additional tag resolver.
-   * Processes PlaceholderAPI and MiniPlaceholder relational placeholders if enabled.
-   *
-   * @param string         The string to deserialize
-   * @param primaryPlayer   The primary player audience for context
-   * @param secondaryPlayer The secondary player audience for relational placeholders
-   * @param target         The target object for placeholders
-   * @param resolver       Additional tag resolver to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer,
-      final @Nullable Pointered target, final @NotNull TagResolver resolver) {
-    return deserialize(string, primaryPlayer, secondaryPlayer, target, new TagResolver[]{resolver});
-  }
-
-  /**
-   * Deserializes a string into a Component using MiniMessage format with primary and secondary player context, target, and multiple additional tag resolvers.
-   * Processes PlaceholderAPI and MiniPlaceholder relational placeholders if enabled.
-   *
-   * @param string         The string to deserialize
-   * @param primaryPlayer   The primary player audience for context
-   * @param secondaryPlayer The secondary player audience for relational placeholders
-   * @param target         The target object for placeholders
-   * @param resolvers      Additional tag resolvers to use
-   * @return The deserialized Component
-   */
-  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer,
-      final @Nullable Pointered target, final @NotNull TagResolver... resolvers) {
+  public @NotNull Component deserialize(@NotNull String string, final @NotNull Audience primaryPlayer, final @NotNull Audience secondaryPlayer, final @NotNull TagResolver... resolvers) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(TagResolver.builder()
             .resolver(tags)
@@ -342,7 +176,7 @@ public final class Stylize {
     string = applyPlaceholderAPI(string, primaryPlayer, secondaryPlayer);
     string = applyLegacyFormatting(string);
 
-    return target != null ? miniMessage.deserialize(string, target, resolvers) : miniMessage.deserialize(string, resolvers);
+    return miniMessage.deserialize(string, primaryPlayer);
   }
 
   /**
@@ -480,17 +314,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends a message to each recipient in the audience with a target, deserializing the message for each recipient.
-   *
-   * @param audience The audience to send the message to
-   * @param string   The message to send
-   * @param target   The target object for placeholders
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target) {
-    audience.forEachAudience(recipient -> recipient.sendMessage(deserialize(string, recipient, target)));
-  }
-
-  /**
    * Sends a message to each recipient in the audience with an additional tag resolver, deserializing the message for each recipient.
    *
    * @param audience The audience to send the message to
@@ -513,30 +336,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends a message to each recipient in the audience with a target and additional tag resolver, deserializing the message for each recipient.
-   *
-   * @param audience The audience to send the message to
-   * @param string   The message to send
-   * @param target   The target object for placeholders
-   * @param resolver Additional tag resolver to use
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target, @NotNull TagResolver resolver) {
-    audience.forEachAudience(recipient -> recipient.sendMessage(deserialize(string, recipient, target, resolver)));
-  }
-
-  /**
-   * Sends a message to each recipient in the audience with a target and multiple additional tag resolvers, deserializing the message for each recipient.
-   *
-   * @param audience  The audience to send the message to
-   * @param string    The message to send
-   * @param target    The target object for placeholders
-   * @param resolver  Additional tag resolvers to use
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target, @NotNull TagResolver... resolver) {
-    audience.forEachAudience(recipient -> recipient.sendMessage(deserialize(string, recipient, target, resolver)));
-  }
-
-  /**
    * Sends multiple messages to each recipient in the audience, deserializing each message for each recipient.
    *
    * @param audience The audience to send the messages to
@@ -544,17 +343,6 @@ public final class Stylize {
    */
   public void sendMessage(@NotNull Audience audience, @NotNull List<String> strings) {
     audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient))));
-  }
-
-  /**
-   * Sends multiple messages to each recipient in the audience with a target for placeholders, deserializing each message for each recipient.
-   *
-   * @param audience The audience to send the messages to
-   * @param strings  The list of messages to send
-   * @param target   The target object for placeholders
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull List<String> strings, @NotNull Pointered target) {
-    audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient, target))));
   }
 
   /**
@@ -580,30 +368,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends multiple messages to each recipient in the audience with a target and additional tag resolver, deserializing each message for each recipient.
-   *
-   * @param audience The audience to send the messages to
-   * @param strings  The list of messages to send
-   * @param target   The target object for placeholders
-   * @param resolver Additional tag resolver to use
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull List<String> strings, @NotNull Pointered target, @NotNull TagResolver resolver) {
-    audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient, target, resolver))));
-  }
-
-  /**
-   * Sends multiple messages to each recipient in the audience with a target and multiple additional tag resolvers, deserializing each message for each recipient.
-   *
-   * @param audience  The audience to send the messages to
-   * @param strings   The list of messages to send
-   * @param target    The target object for placeholders
-   * @param resolver  Additional tag resolvers to use
-   */
-  public void sendMessage(@NotNull Audience audience, @NotNull List<String> strings, @NotNull Pointered target, @NotNull TagResolver... resolver) {
-    audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient, target, resolver))));
-  }
-
-  /**
    * Sends an action bar message to each recipient in the audience, deserializing the message for each recipient.
    *
    * @param audience The audience to send the action bar to
@@ -611,17 +375,6 @@ public final class Stylize {
    */
   public void sendActionBar(@NotNull Audience audience, @NotNull String string) {
     audience.forEachAudience(recipient -> recipient.sendActionBar(deserialize(string, recipient)));
-  }
-
-  /**
-   * Sends an action bar message to each recipient in the audience with a target for placeholders, deserializing the message for each recipient.
-   *
-   * @param audience The audience to send the action bar to
-   * @param string   The action bar message to send
-   * @param target   The target object for placeholders
-   */
-  public void sendActionBar(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target) {
-    audience.forEachAudience(recipient -> recipient.sendActionBar(deserialize(string, recipient, target)));
   }
 
   /**
@@ -644,30 +397,6 @@ public final class Stylize {
    */
   public void sendActionBar(@NotNull Audience audience, @NotNull String string, @NotNull TagResolver... resolver) {
     audience.forEachAudience(recipient -> recipient.sendActionBar(deserialize(string, recipient, resolver)));
-  }
-
-  /**
-   * Sends an action bar message to each recipient in the audience with a target and additional tag resolver, deserializing the message for each recipient.
-   *
-   * @param audience The audience to send the action bar to
-   * @param string   The action bar message to send
-   * @param target   The target object for placeholders
-   * @param resolver Additional tag resolver to use
-   */
-  public void sendActionBar(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target, @NotNull TagResolver resolver) {
-    audience.forEachAudience(recipient -> recipient.sendActionBar(deserialize(string, recipient, target, resolver)));
-  }
-
-  /**
-   * Sends an action bar message to each recipient in the audience with a target and multiple additional tag resolvers, deserializing the message for each recipient.
-   *
-   * @param audience  The audience to send the action bar to
-   * @param string    The action bar message to send
-   * @param target    The target object for placeholders
-   * @param resolver  Additional tag resolvers to use
-   */
-  public void sendActionBar(@NotNull Audience audience, @NotNull String string, @NotNull Pointered target, @NotNull TagResolver... resolver) {
-    audience.forEachAudience(recipient -> recipient.sendActionBar(deserialize(string, recipient, target, resolver)));
   }
 
 
@@ -697,28 +426,6 @@ public final class Stylize {
         .audience(audience)
         .title(title)
         .subTitle(subTitle)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with a target.
-   *
-   * @param audience the audience to send the title to
-   * @param title    the title text
-   * @param subTitle the subtitle text
-   * @param target   the target for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Pointered target
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .target(target)
         .send();
   }
 
@@ -767,56 +474,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends a title and subtitle to the specified audience with a target and a tag resolver.
-   *
-   * @param audience  the audience to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param target    the target for the title
-   * @param resolver  the tag resolver for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Pointered target,
-      @NotNull TagResolver resolver
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .target(target)
-        .resolvers(resolver)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with a target and multiple tag resolvers.
-   *
-   * @param audience   the audience to send the title to
-   * @param title      the title text
-   * @param subTitle   the subtitle text
-   * @param target     the target for the title
-   * @param resolvers  the tag resolvers for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Pointered target,
-      @NotNull TagResolver... resolvers
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .target(target)
-        .resolvers(resolvers)
-        .send();
-  }
-
-  /**
    * Sends a title and subtitle to the specified audience with custom fade-in and fade-out durations.
    *
    * @param audience  the audience to send the title to
@@ -838,34 +495,6 @@ public final class Stylize {
         .subTitle(subTitle)
         .fadeIn(fadeIn)
         .fadeOut(fadeOut)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, fade-out durations, and a target.
-   *
-   * @param audience  the audience to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param target    the target for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .fadeOut(fadeOut)
-        .target(target)
         .send();
   }
 
@@ -926,68 +555,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, fade-out durations, a target, and a tag resolver.
-   *
-   * @param audience  the audience to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param fadeOut   the fade-out duration
-   * @param target    the target for the title
-   * @param resolver  the tag resolver for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target,
-      @NotNull TagResolver resolver
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .fadeOut(fadeOut)
-        .target(target)
-        .resolvers(resolver)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, fade-out durations, a target, and multiple tag resolvers.
-   *
-   * @param audience   the audience to send the title to
-   * @param title      the title text
-   * @param subTitle   the subtitle text
-   * @param fadeIn     the fade-in duration
-   * @param fadeOut    the fade-out duration
-   * @param target     the target for the title
-   * @param resolvers  the tag resolvers for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target,
-      @NotNull TagResolver... resolvers
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .fadeOut(fadeOut)
-        .target(target)
-        .resolvers(resolvers)
-        .send();
-  }
-
-  /**
    * Sends a title and subtitle to the specified audience with custom fade-in, stay, and fade-out durations.
    *
    * @param audience  the audience to send the title to
@@ -1012,37 +579,6 @@ public final class Stylize {
         .fadeIn(fadeIn)
         .stay(stay)
         .fadeOut(fadeOut)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, stay, and fade-out durations, and a target.
-   *
-   * @param audience  the audience to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param target    the target for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .stay(stay)
-        .fadeOut(fadeOut)
-        .target(target)
         .send();
   }
 
@@ -1109,74 +645,6 @@ public final class Stylize {
   }
 
   /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, stay, and fade-out durations, a target, and a tag resolver.
-   *
-   * @param audience  the audience to send the title to
-   * @param title     the title text
-   * @param subTitle  the subtitle text
-   * @param fadeIn    the fade-in duration
-   * @param stay      the stay duration
-   * @param fadeOut   the fade-out duration
-   * @param target    the target for the title
-   * @param resolver  the tag resolver for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target,
-      @NotNull TagResolver resolver
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .stay(stay)
-        .fadeOut(fadeOut)
-        .target(target)
-        .resolvers(resolver)
-        .send();
-  }
-
-  /**
-   * Sends a title and subtitle to the specified audience with custom fade-in, stay, and fade-out durations, a target, and multiple tag resolvers.
-   *
-   * @param audience   the audience to send the title to
-   * @param title      the title text
-   * @param subTitle   the subtitle text
-   * @param fadeIn     the fade-in duration
-   * @param stay       the stay duration
-   * @param fadeOut    the fade-out duration
-   * @param target     the target for the title
-   * @param resolvers  the tag resolvers for the title
-   */
-  public void sendTitle(
-      @NotNull Audience audience,
-      @NotNull String title,
-      @NotNull String subTitle,
-      @NotNull Duration fadeIn,
-      @NotNull Duration stay,
-      @NotNull Duration fadeOut,
-      @NotNull Pointered target,
-      @NotNull TagResolver... resolvers
-  ) {
-    sendTitle()
-        .audience(audience)
-        .title(title)
-        .subTitle(subTitle)
-        .fadeIn(fadeIn)
-        .stay(stay)
-        .fadeOut(fadeOut)
-        .target(target)
-        .resolvers(resolvers)
-        .send();
-  }
-
-  /**
    * Builder class for constructing and sending titles.
    */
   public static final class TitleBuilder {
@@ -1196,7 +664,6 @@ public final class Stylize {
     private Duration fadeIn = DEFAULT_FADE_IN;
     private Duration stay = DEFAULT_STAY;
     private Duration fadeOut = DEFAULT_FADE_OUT;
-    private Pointered target;
     private TagResolver resolver = DEFAULT_RESOLVER;
 
     TitleBuilder(Stylize stylize) {
@@ -1276,18 +743,6 @@ public final class Stylize {
     }
 
     /**
-     * Sets the target for the title.
-     *
-     * @param target the target for the title
-     * @return this builder instance
-     */
-    public TitleBuilder target(@NotNull Pointered target) {
-      Objects.requireNonNull(target, "Target cannot be null!");
-      this.target = target;
-      return this;
-    }
-
-    /**
      * Sets the tag resolvers for the title.
      *
      * @param resolvers the tag resolvers for the title
@@ -1306,13 +761,8 @@ public final class Stylize {
       Times times = Times.times(fadeIn, stay, fadeOut);
 
       audience.forEachAudience(recipient -> {
-        Component titleComponent = target == null
-            ? stylize.deserialize(title, recipient, resolver)
-            : stylize.deserialize(title, recipient, target, resolver);
-
-        Component subTitleComponent = target == null
-            ? stylize.deserialize(subTitle, recipient, resolver)
-            : stylize.deserialize(subTitle, recipient, target, resolver);
+        Component titleComponent = stylize.deserialize(title, recipient, resolver);
+        Component subTitleComponent = stylize.deserialize(subTitle, recipient, resolver);
 
         recipient.showTitle(Title.title(titleComponent, subTitleComponent, times));
       });
