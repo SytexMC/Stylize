@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"me.sytex.stylize","l":"Plugin"},{"p":"me.sytex.stylize","l":"Stylize"},{"p":"me.sytex.stylize","l":"Stylize.StylizeBuilder"},{"p":"me.sytex.stylize","l":"Stylize.TitleBuilder"}];updateSearchResults();
