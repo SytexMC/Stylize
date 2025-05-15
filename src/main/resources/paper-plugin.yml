@@ -1,5 +1,5 @@
 name: Stylize
-version: '2.0.0'
+version: '2.1.0'
 api-version: '1.20.6'
 main: me.sytex.stylize.Plugin
 authors: [ SytexMC ]
