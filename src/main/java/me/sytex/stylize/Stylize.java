@@ -225,12 +225,22 @@ public final class Stylize {
    * @return The converted string with legacy formatting applied
    */
   private @NotNull String applyLegacyFormatting(@NotNull String string) {
-    MiniMessage miniMessage = MiniMessage.miniMessage();
-    for (Character character : characters) {
-      string = miniMessage.serialize(LegacyComponentSerializer.builder().character(character).build().deserialize(string)).replace("\\<", "<");
+    final char standardLegacyChar = '&';
+
+    for (Character legacyChar : characters) {
+      if (legacyChar != standardLegacyChar) {
+        string = string.replace(legacyChar, standardLegacyChar);
+      }
     }
 
-    return string;
+    LegacyComponentSerializer legacySerializer = LegacyComponentSerializer
+        .builder()
+        .character(standardLegacyChar)
+        .build();
+
+    return MiniMessage.miniMessage()
+        .serialize(legacySerializer.deserialize(string))
+        .replace("\\<", "<");
   }
 
   /**
