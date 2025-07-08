@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A library for formatting and sending text using Adventure's <a href="https://docs.advntr.dev/minimessage/index.html">MiniMessage</a> format, as well as multiple legacy color codes simultaneously".
+ * A library for formatting and sending text using Adventure's <a href="https://docs.advntr.dev/minimessage/index.html">MiniMessage</a> format, as well as multiple legacy color codes simultaneously.
  * Provides support for both <a href="https://www.spigotmc.org/resources/placeholderapi.6245/">PlaceholderAPI</a> and <a href="https://modrinth.com/plugin/miniplaceholders">MiniPlaceholders</a> integrations.
  */
 @SuppressWarnings("unused")
