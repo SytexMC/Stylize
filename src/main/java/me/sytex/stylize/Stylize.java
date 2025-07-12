@@ -32,6 +32,7 @@ import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
@@ -76,7 +77,7 @@ public final class Stylize {
    */
   @Contract(value = " -> new", pure = true)
   public static @NotNull Stylize stylize() {
-    return new Stylize(true, true, TagResolver.empty(), Collections.emptyList());
+    return new Stylize(true, true, StandardTags.defaults(), Collections.emptyList());
   }
 
   /**
