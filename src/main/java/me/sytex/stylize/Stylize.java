@@ -363,6 +363,7 @@ public final class Stylize {
     audience.clearTitle();
   }
 
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -375,7 +376,7 @@ public final class Stylize {
         .send();
   }
 
-
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -390,6 +391,7 @@ public final class Stylize {
         .send();
   }
 
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -406,6 +408,7 @@ public final class Stylize {
         .send();
   }
 
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -424,6 +427,7 @@ public final class Stylize {
         .send();
   }
 
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
@@ -442,6 +446,7 @@ public final class Stylize {
         .send();
   }
 
+  @Deprecated
   public void sendTitle(
       @NotNull Audience audience,
       @NotNull String title,
