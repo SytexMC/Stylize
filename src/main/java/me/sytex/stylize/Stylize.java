@@ -241,6 +241,9 @@ public final class Stylize {
   //                                     Messages                                      //
   // --------------------------------------------------------------------------------- //
 
+  private static final String CLEAR_CHAT_STRING = "<br> ".repeat(100);
+  private static final Component CLEAR_CHAT_COMPONENT = Component.text(CLEAR_CHAT_STRING);
+
   public void sendMessage(@NotNull Audience audience, @NotNull String string) {
     audience.forEachAudience(recipient -> recipient.sendMessage(deserialize(string, recipient)));
   }
@@ -255,6 +258,10 @@ public final class Stylize {
 
   public void sendMessage(@NotNull Audience audience, @NotNull List<String> strings, @NotNull TagResolver resolver) {
     audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient, resolver))));
+  }
+
+  public void clearMessage(@NotNull Audience audience) {
+    audience.sendMessage(deserialize(CLEAR_CHAT_STRING, audience));
   }
 
   // --------------------------------------------------------------------------------- //
