@@ -260,8 +260,8 @@ public final class Stylize {
     audience.forEachAudience(recipient -> strings.forEach(string -> recipient.sendMessage(deserialize(string, recipient, resolver))));
   }
 
-  public void clearMessage(@NotNull Audience audience) {
-    audience.sendMessage(deserialize(CLEAR_CHAT_STRING, audience));
+  public void clearChat(@NotNull Audience audience) {
+    audience.sendMessage(CLEAR_CHAT_COMPONENT);
   }
 
   // --------------------------------------------------------------------------------- //
