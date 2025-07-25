@@ -63,7 +63,6 @@ public final class Stylize {
   }
 
   private static final class Holder {
-
     private static final Stylize INSTANCE = Stylize.builder()
         .parsePapi(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"))
         .parseMini(Bukkit.getPluginManager().isPluginEnabled("MiniPlaceholders"))
@@ -114,8 +113,7 @@ public final class Stylize {
     return miniMessage.deserialize(string, player);
   }
 
-  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience primary,
-      @NotNull Audience secondary) {
+  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience primary, @NotNull Audience secondary) {
     return deserialize(string, primary, secondary, TagResolver.empty());
   }
 
@@ -187,8 +185,7 @@ public final class Stylize {
     return string;
   }
 
-  private @NotNull String applyPlaceholderAPI(@NotNull String string, @NotNull Audience primary,
-      @NotNull Audience secondary) {
+  private @NotNull String applyPlaceholderAPI(@NotNull String string, @NotNull Audience primary, @NotNull Audience secondary) {
     if (parsePapi) {
       if (Bukkit.getPlayer(secondary.getOrDefault(Identity.UUID, UUID.randomUUID())) != null
           && Bukkit.getPlayer(primary.getOrDefault(Identity.UUID, UUID.randomUUID())) != null) {
@@ -241,9 +238,6 @@ public final class Stylize {
   //                                     Messages                                      //
   // --------------------------------------------------------------------------------- //
 
-  private static final String CLEAR_CHAT_STRING = "<br> ".repeat(100);
-  private static final Component CLEAR_CHAT_COMPONENT = Component.text(CLEAR_CHAT_STRING);
-
   public void sendMessage(@NotNull Audience audience, @NotNull String string) {
     audience.forEachAudience(recipient -> recipient.sendMessage(deserialize(string, recipient)));
   }
@@ -261,7 +255,11 @@ public final class Stylize {
   }
 
   public void clearChat(@NotNull Audience audience) {
-    audience.sendMessage(CLEAR_CHAT_COMPONENT);
+    audience.sendMessage(deserialize("<br> ".repeat(100), audience));
+  }
+
+  public void clearChat(@NotNull Audience audience, int lines) {
+    audience.sendMessage(deserialize("<br> ".repeat(Math.max(0, lines - 1)), audience));
   }
 
   // --------------------------------------------------------------------------------- //
