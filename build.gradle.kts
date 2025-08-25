@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")          // Paper
-    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")    // MiniPlaceholders
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.0.1")    // MiniPlaceholders
     compileOnly("me.clip:placeholderapi:2.11.6")                            // PlaceholderAPI
     compileOnly("org.projectlombok:lombok:1.18.38")                         // Lombok
     annotationProcessor("org.projectlombok:lombok:1.18.38")                 // Lombok
