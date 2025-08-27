@@ -155,7 +155,11 @@ public final class Stylize {
   // --------------------------------------------------------------------------------- //
 
   private @NotNull String applyLegacyFormatting(@NotNull String string) {
-    final char standardLegacyChar = '&';
+    if (characters.isEmpty()) {
+      return string;
+    }
+
+    final char standardLegacyChar = characters.getFirst();
 
     for (Character legacyChar : characters) {
       if (legacyChar != standardLegacyChar) {
