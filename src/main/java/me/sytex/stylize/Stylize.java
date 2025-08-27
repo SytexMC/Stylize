@@ -48,15 +48,19 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public final class Stylize {
 
-  private final boolean parsePapi;
+  @Builder.Default
+  private final boolean parsePapi = false;
 
-  private final boolean parseMini;
+  @Builder.Default
+  private final boolean parseMini = false;
 
   @NotNull
-  private final TagResolver tagResolver;
+  @Builder.Default
+  private final TagResolver tagResolver = TagResolver.empty();
 
   @NotNull
-  private final List<Character> characters;
+  @Builder.Default
+  private final List<Character> characters = List.of();
 
   public static @NotNull Stylize stylize() {
     return Holder.INSTANCE;
