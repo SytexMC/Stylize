@@ -21,6 +21,7 @@
 package me.sytex.stylize;
 
 import io.github.miniplaceholders.api.MiniPlaceholders;
+import io.github.miniplaceholders.api.types.RelationalAudience;
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @With
 @Getter
@@ -84,7 +84,7 @@ public final class Stylize {
         .tags(TagResolver.builder()
             .resolver(tagResolver)
             .resolver(resolver)
-            .resolver(getMiniPlaceholders())
+            .resolver(parseMini ? MiniPlaceholders.globalPlaceholders() : TagResolver.empty())
             .build())
         .build();
 
@@ -97,13 +97,12 @@ public final class Stylize {
     return deserialize(string, player, TagResolver.empty());
   }
 
-  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience player,
-      @NotNull TagResolver resolver) {
+  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience player, @NotNull TagResolver resolver) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(TagResolver.builder()
             .resolver(tagResolver)
             .resolver(resolver)
-            .resolver(getMiniPlaceholders(player))
+            .resolver(parseMini ? MiniPlaceholders.audienceGlobalPlaceholders() : TagResolver.empty())
             .build())
         .build();
 
@@ -117,20 +116,19 @@ public final class Stylize {
     return deserialize(string, primary, secondary, TagResolver.empty());
   }
 
-  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience primary, @NotNull Audience secondary,
-      @NotNull TagResolver resolver) {
+  public @NotNull Component deserialize(@NotNull String string, @NotNull Audience primary, @NotNull Audience secondary, @NotNull TagResolver resolver) {
     MiniMessage miniMessage = MiniMessage.builder()
         .tags(TagResolver.builder()
             .resolver(tagResolver)
             .resolver(resolver)
-            .resolver(getMiniPlaceholders(primary, secondary))
+            .resolver(parseMini ? MiniPlaceholders.relationalGlobalPlaceholders() : TagResolver.empty())
             .build())
         .build();
 
     string = applyPlaceholderAPI(string, primary, secondary);
     string = applyLegacyFormatting(string);
 
-    return miniMessage.deserialize(string, primary);
+    return miniMessage.deserialize(string, new RelationalAudience<>(primary, secondary));
   }
 
   // --------------------------------------------------------------------------------- //
@@ -195,43 +193,6 @@ public final class Stylize {
     }
 
     return string;
-  }
-
-  // --------------------------------------------------------------------------------- //
-  //                                  MiniPlaceholders                                 //
-  // --------------------------------------------------------------------------------- //
-
-  private @NotNull TagResolver getMiniPlaceholders() {
-    return buildMiniPlaceholderResolver(null, null);
-  }
-
-  private @NotNull TagResolver getMiniPlaceholders(@NotNull Audience player) {
-    return buildMiniPlaceholderResolver(player, null);
-  }
-
-  private @NotNull TagResolver getMiniPlaceholders(@NotNull Audience primary, @NotNull Audience secondary) {
-    return buildMiniPlaceholderResolver(primary, secondary);
-  }
-
-  private @NotNull TagResolver buildMiniPlaceholderResolver(@Nullable Audience primary, @Nullable Audience secondary) {
-    if (!parseMini) {
-      return TagResolver.empty();
-    }
-
-    TagResolver.Builder resolverBuilder = TagResolver.builder();
-
-    resolverBuilder.resolver(MiniPlaceholders.getGlobalPlaceholders());
-
-    if (primary != null) {
-      resolverBuilder.resolver(MiniPlaceholders.getAudiencePlaceholders(primary));
-
-      if (secondary != null) {
-        resolverBuilder.resolver(MiniPlaceholders.getRelationalPlaceholders(primary, secondary));
-        resolverBuilder.resolver(MiniPlaceholders.getRelationalGlobalPlaceholders(primary, secondary));
-      }
-    }
-
-    return resolverBuilder.build();
   }
 
   // --------------------------------------------------------------------------------- //
